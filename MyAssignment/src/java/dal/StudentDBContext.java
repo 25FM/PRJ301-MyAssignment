@@ -10,53 +10,52 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.TimeSlot;
+import model.Student;
 
 /**
  *
  * @author MANH
  */
-public class TimeSlotDBContext extends dal.DBContext<TimeSlot>{
+public class StudentDBContext extends DBContext<Student> {
 
     @Override
-    public void insert(TimeSlot model) {
+    public void insert(Student model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(TimeSlot model) {
+    public void update(Student model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(TimeSlot model) {
+    public void delete(Student model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public TimeSlot get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ArrayList<TimeSlot> list() {
-        ArrayList<TimeSlot> slots = new ArrayList<>();
+    public Student get(int id) {
         try {
-            String sql = "SELECT tid,[description] FROM TimeSlot";
+            String sql = "Select stdid, stdname from Student where stdid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) 
+            if (rs.next()) 
             {
-                TimeSlot slot = new TimeSlot();
-                slot.setId(rs.getInt("tid"));
-                slot.setDescription(rs.getString("description"));
-                slots.add(slot);
+                Student s = new Student();
+                s.setId(rs.getInt("stdid"));
+                s.setName(rs.getString("stdname"));
+                return s;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(TimeSlotDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return slots;
-        
+        return null;
     }
-    
+
+    @Override
+    public ArrayList<Student> list() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

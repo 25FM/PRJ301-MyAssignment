@@ -11,20 +11,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Timetable for Lecturer</title>
+        <title>Timetable for Student</title>
     </head>
     <body>
-        Lecturer: <input type="text" readonly="readonly" value="${requestScope.lecturer.name}"/>
+        Student:  <input type="text" readonly="readonly" value="${requestScope.student.name}"/>
         <form action="timetable" method="GET">
-            <input type="hidden" name="lid" value="${param.lid}"/>
+            <input type="hidden" name="stdid" value="${param.stdid}"/>
             From: <input type="date" name="from" value="${requestScope.from}"/>
             To: <input type="date" name="to" value="${requestScope.to}"/>
             <input type="submit" value="View"/> 
         </form>
-        <form action="attandance" method="get">
-            <input type="submit" value="Attandance">
-        </form>    
-
         <table border="1px">
             <tr>
                 <td></td>
@@ -49,7 +45,7 @@
                                         <img src="" alt=""/>
                                     </c:if>
                                 </c:if>
-
+                                  
                             </c:forEach>
                         </td>
                     </c:forEach>

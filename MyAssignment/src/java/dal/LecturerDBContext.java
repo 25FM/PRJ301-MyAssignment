@@ -16,7 +16,7 @@ import model.Lecturer;
  *
  * @author MANH
  */
-public class LecturerDBContext extends DBContext<Lecturer>{
+public class LecturerDBContext extends dal.DBContext<Lecturer> {
 
     @Override
     public void insert(Lecturer model) {
@@ -38,11 +38,13 @@ public class LecturerDBContext extends DBContext<Lecturer>{
         try {
             String sql = "SELECT lid,lname FROM Lecturer WHERE lid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
+            if(rs.next())
+            {
                 Lecturer l = new Lecturer();
-                l.setId(rs.getInt("id"));    
-                l.setName(rs.getString("name"));
+                l.setId(rs.getInt("lid"));
+                l.setName(rs.getString("lname"));
                 return l;
             }
         } catch (SQLException ex) {
@@ -55,6 +57,5 @@ public class LecturerDBContext extends DBContext<Lecturer>{
     public ArrayList<Lecturer> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
     
 }

@@ -20,6 +20,8 @@ public class Session {
     private int index;
     private boolean attandated;
     private TimeSlot timeslot;
+    private Subject subject;
+    
     private ArrayList<Attandance> attandances = new ArrayList<>();
 
     public int getId() {
@@ -92,6 +94,14 @@ public class Session {
 
     public void setAttandances(ArrayList<Attandance> attandances) {
         this.attandances = attandances;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
     
     
