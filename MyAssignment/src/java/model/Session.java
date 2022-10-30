@@ -18,11 +18,11 @@ public class Session {
     private Lecturer lecturer;
     private Date date;
     private int index;
-    private boolean attandated;
-    private TimeSlot timeslot;
+    private boolean attanded;
+    private TimeSlot slot;
     private Subject subject;
     
-    private ArrayList<Attandance> attandances = new ArrayList<>();
+    private ArrayList<Attandance> atts = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -72,29 +72,33 @@ public class Session {
         this.index = index;
     }
 
-    public boolean isAttandated() {
-        return attandated;
+    public boolean isAttanded() {
+        return attanded;
     }
 
-    public void setAttandated(boolean attandated) {
-        this.attandated = attandated;
+    public void setAttanded(boolean attanded) {
+        this.attanded = attanded;
     }
 
-    public TimeSlot getTimeslot() {
-        return timeslot;
+    public TimeSlot getSlot() {
+        return slot;
     }
 
-    public void setTimeslot(TimeSlot timeslot) {
-        this.timeslot = timeslot;
+    public void setSlot(TimeSlot slot) {
+        this.slot = slot;
     }
 
-    public ArrayList<Attandance> getAttandances() {
-        return attandances;
+    
+
+    public ArrayList<Attandance> getAtts() {
+        return atts;
     }
 
-    public void setAttandances(ArrayList<Attandance> attandances) {
-        this.attandances = attandances;
+    public void setAtts(ArrayList<Attandance> atts) {
+        this.atts = atts;
     }
+
+    
 
     public Subject getSubject() {
         return subject;

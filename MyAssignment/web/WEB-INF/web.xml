@@ -2,15 +2,28 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>LecturerTimetableController</servlet-name>
-        <servlet-class>controller.TimetableLecController</servlet-class>
+        <servlet-class>controller.lecturer.TimetableLecController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TimetableStuController</servlet-name>
         <servlet-class>controller.TimetableStuController</servlet-class>
     </servlet>
+    
     <servlet>
-        <servlet-name>AttandanceController</servlet-name>
-        <servlet-class>controller.AttandanceController</servlet-class>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>controller.auth.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.auth.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>controller.home.HomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LecturerAttController</servlet-name>
+        <servlet-class>controller.lecturer.AttController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LecturerTimetableController</servlet-name>
@@ -20,9 +33,23 @@
         <servlet-name>TimetableStuController</servlet-name>
         <url-pattern>/student/timetable</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
-        <servlet-name>AttandanceController</servlet-name>
-        <url-pattern>/attandance</url-pattern>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>LecturerAttController</servlet-name>
+        <url-pattern>/lecture/takeatt</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
