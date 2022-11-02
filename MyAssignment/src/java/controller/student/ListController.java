@@ -2,54 +2,49 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.auth;
+package controller.student;
 
-import dal.AccountDBContext;
+import dal.StudentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
+import java.util.ArrayList;
+import model.Student;
 
 /**
  *
  * @author MANH
  */
-public class LoginController extends HttpServlet {
+public class ListController extends HttpServlet {
 
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        StudentDBContext db = new StudentDBContext();
+        ArrayList<Student> list = db.list();
+        request.setAttribute("students", list);
+        request.getRequestDispatcher("../view/student/list.jsp").forward(request, response);
     }
 
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        AccountDBContext db = new AccountDBContext();
-        Account account = db.get(username, password);
-        if(account!=null)
-        {
-            request.getSession().setAttribute("account", account);
-            response.getWriter().println("login successful!");
-            response.sendRedirect("view/home.jsp");
-            
-        }
-        else
-        {
-            response.getWriter().println("login failed!");
-        }
+        processRequest(request, response);
     }
 
+    
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 public class Student {
     private int id;
     private String name;
+    private boolean gender;
+    private Date dob;
     private ArrayList<Group> groups = new ArrayList<>();
     private ArrayList<Attandance> attandances = new ArrayList<>();
 
@@ -46,6 +49,22 @@ public class Student {
 
     public void setAttandances(ArrayList<Attandance> attandances) {
         this.attandances = attandances;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
     
     

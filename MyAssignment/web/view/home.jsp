@@ -19,5 +19,11 @@
             <c:if test="${sessionScope.account eq null}">
             click <a href="login">here</a> to login.
         </c:if>
+            <br/>
+            <select>
+                
+                <option>View Table</option>
+                
+            </select>
     </body>
 </html>
