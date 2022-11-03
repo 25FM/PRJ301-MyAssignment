@@ -43,9 +43,9 @@ public class StudentDBContext extends DBContext<Student> {
             String sql ="Update Student set stdname = ?, stdgender = ?, stddob = ? where stdid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, model.getId());
-            stm.setString(2, model.getName());
-            stm.setBoolean(3, model.isGender());
-            stm.setDate(4, model.getDob());
+            stm.setString(1, model.getName());
+            stm.setBoolean(2, model.isGender());
+            stm.setDate(3, model.getDob());
             stm.executeUpdate();
             connection.commit();
         } catch (SQLException ex) {

@@ -14,7 +14,7 @@
         <script>
             function removeStudent(id)
             {
-                var result = confirm("Do you want delete information student with id = " + id "?");
+                var result = confirm("Do you want delete information student with id = " + id + "?");
                 if (result)
                     window.location.href = "delete?id=" + id;
             }
