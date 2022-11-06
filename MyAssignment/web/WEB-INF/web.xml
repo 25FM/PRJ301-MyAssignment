@@ -40,6 +40,10 @@
         <servlet-name>DeleteController</servlet-name>
         <servlet-class>controller.student.DeleteController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttendanceReport</servlet-name>
+        <servlet-class>controller.student.AttendanceReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LecturerTimetableController</servlet-name>
         <url-pattern>/lecturer/timetable</url-pattern>
@@ -70,7 +74,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>InsertController</servlet-name>
-        <url-pattern>/student/insert</url-pattern>
+        <url-pattern>/teacher/insert</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateController</servlet-name>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>DeleteController</servlet-name>
         <url-pattern>/student/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceReport</servlet-name>
+        <url-pattern>/student/attendanceReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

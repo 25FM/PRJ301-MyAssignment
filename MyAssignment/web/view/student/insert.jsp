@@ -15,9 +15,7 @@
         <form action="insert" method="POST">
             Id:<input type="text" name="id"/> <br/>
             Name:<input type="text" name="name"/> <br/>
-            Gender: <input type="radio" name="gender" value ="male" checked="checked"/> Male
-            <input type="radio" name="gender" value="female"/> Female <br/>
-            Dob: <input type="date" name="dob" /> <br/>
+            Code: <input type="text" name="code"/> <br/>
             <input type="submit" value="Save"/>
         </form>
     </body>

@@ -19,6 +19,7 @@ import model.Lecturer;
 import model.Session;
 import model.Student;
 import model.TimeSlot;
+import model.Week;
 import util.DateTimeHelper;
 
 /**
@@ -30,43 +31,42 @@ public class TimetableStuController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int stdid = Integer.parseInt(request.getParameter("stdid"));
-        String raw_from = request.getParameter("from");
-        String raw_to = request.getParameter("to");
-        java.sql.Date from = null;
-        java.sql.Date to = null;
-        if (raw_from == null || raw_from.length() == 0) {
-            Date today = new Date();
-            int todayOfWeek = DateTimeHelper.getDayofWeek(today);
-            Date e_from = DateTimeHelper.addDays(today, 2 - todayOfWeek);
-            Date e_to = DateTimeHelper.addDays(today, 8 - todayOfWeek);
-            from = DateTimeHelper.toDateSql(e_from);
-            to = DateTimeHelper.toDateSql(e_to);
+        String paraweek = request.getParameter("week");
+        ArrayList<Week> weeks = DateTimeHelper.getAllWeek();
+        
+        TimeSlotDBContext tdb = new TimeSlotDBContext();
+        ArrayList<TimeSlot> slots = tdb.list();
+        
+        StudentDBContext stdb = new StudentDBContext();
+        Student student = stdb.get(stdid);
+        int indexWeek;
+        if (paraweek == null) {
+            Date dnow = new Date();
+            indexWeek = DateTimeHelper.getWeekOfYear(dnow);
         } else {
-            from = java.sql.Date.valueOf(raw_from);
-            to = java.sql.Date.valueOf(raw_to);
+            indexWeek = Integer.parseInt(paraweek);
         }
-        request.setAttribute("from", from);
-        request.setAttribute("to", to);
-        request.setAttribute("dates", DateTimeHelper.getDateList(from, to));
-
-        TimeSlotDBContext slotDB = new TimeSlotDBContext();
-        ArrayList<TimeSlot> slots = slotDB.list();
+        Week currentWeek = DateTimeHelper.getWeekTime(indexWeek);
+        ArrayList<String> daysOfWeek = currentWeek.toStringValues();
+        SessionDBContext ssdb = new SessionDBContext();
+        ArrayList<Session> sessions = ssdb.filterByStudent(stdid, new Date(currentWeek.getFrom().getTime()), new Date(currentWeek.getTo().getTime()));
         request.setAttribute("slots", slots);
-
-        SessionDBContext sesDB = new SessionDBContext();
-        ArrayList<Session> sessions = sesDB.filterForStudent(stdid, from, to);
+        request.setAttribute("weeks", weeks);
+        request.setAttribute("currentWeek", currentWeek);
+        request.setAttribute("indexCurrentWeek", indexWeek);
+        request.setAttribute("daysOfWeek", daysOfWeek);
         request.setAttribute("sessions", sessions);
-
-        StudentDBContext stuDB = new StudentDBContext();
-        Student student = stuDB.get(stdid);
         request.setAttribute("student", student);
-
-        request.getRequestDispatcher("../view/student/timetable.jsp").forward(request, response);
+        request.getRequestDispatcher("/student/timetable/view").forward(request, response);
+        
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
+        
         processRequest(request, response);
     }
 

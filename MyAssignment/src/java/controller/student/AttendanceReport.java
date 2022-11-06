@@ -4,23 +4,25 @@
  */
 package controller.student;
 
-import controller.auth.BaseRoleController;
+import dal.AttendanceDBContext;
 import dal.StudentDBContext;
+import dal.SubjectDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
 import java.util.ArrayList;
+import model.Attendance;
 import model.Student;
+import model.Subject;
 
 /**
  *
  * @author MANH
  */
-public class InsertController extends BaseRoleController {
+public class AttendanceReport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,7 +34,8 @@ public class InsertController extends BaseRoleController {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,10 +50,26 @@ public class InsertController extends BaseRoleController {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        StudentDBContext db = new StudentDBContext();
-        ArrayList<Student> list = db.list();
-        request.setAttribute("students", list);
-        request.getRequestDispatcher("../view/student/insert.jsp").forward(request, response);
+        int stdid = Integer.parseInt(request.getParameter("stdid"));
+        String semester = request.getParameter("semester");
+        String grid = request.getParameter("grid");
+        if (semester == null) {
+            semester = "FALL";
+        }
+        StudentDBContext stdb = new StudentDBContext();
+        Student s = stdb.get(stdid);
+
+        SubjectDBContext sjdb = new SubjectDBContext();
+        ArrayList<Subject> subs = sjdb.get(stdid, semester);
+        int Grid = 0;
+        if (grid == null) {
+            Grid = subs.get(0).getGroups().get(0).getId();
+        } else {
+            Grid = Integer.parseInt(grid);
+        }
+        AttendanceDBContext atdb = new AttendanceDBContext();
+        ArrayList<Attendance> atts = atdb.getByStudent(stdid, Grid);
+        processRequest(request, response);
     }
 
     /**
@@ -64,13 +83,7 @@ public class InsertController extends BaseRoleController {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Student s = new Student();
-        s.setId(Integer.parseInt(request.getParameter("id")));
-        s.setName(request.getParameter("name"));
-        s.setCode(request.getParameter("code"));
-        StudentDBContext db = new StudentDBContext();
-        db.insert(s);
-        response.sendRedirect("list");
+        processRequest(request, response);
     }
 
     /**
@@ -82,15 +95,5 @@ public class InsertController extends BaseRoleController {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    @Override
-    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 }
