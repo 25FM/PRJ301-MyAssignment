@@ -14,10 +14,9 @@ import java.util.ArrayList;
 public class Student {
     private int id;
     private String name;
-    private boolean gender;
-    private Date dob;
+    private String code;
     private ArrayList<Group> groups = new ArrayList<>();
-    private ArrayList<Attandance> attandances = new ArrayList<>();
+    private ArrayList<Attendance> attandances = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -43,29 +42,23 @@ public class Student {
         this.groups = groups;
     }
 
-    public ArrayList<Attandance> getAttandances() {
+    public ArrayList<Attendance> getAttandances() {
         return attandances;
     }
 
-    public void setAttandances(ArrayList<Attandance> attandances) {
+    public void setAttandances(ArrayList<Attendance> attandances) {
         this.attandances = attandances;
     }
 
-    public boolean isGender() {
-        return gender;
+    public String getCode() {
+        return code;
     }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
+    
     
     
 }

@@ -8,10 +8,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Attandance;
+import model.Attendance;
 import model.Group;
 import model.Lecturer;
 import model.Room;
@@ -19,6 +21,7 @@ import model.Session;
 import model.Student;
 import model.Subject;
 import model.TimeSlot;
+import util.DateTimeHelper;
 
 /**
  *
@@ -26,126 +29,102 @@ import model.TimeSlot;
  */
 public class SessionDBContext extends dal.DBContext<Session> {
 
-    public ArrayList<Session> filterForStudent(int stdid, Date from, Date to) {
+    public ArrayList<Session> filterByStudent(int stdid, java.util.Date from, java.util.Date to) {
         ArrayList<Session> sessions = new ArrayList<>();
+
         try {
-            String sql = "SELECT  \n"
-                    + "	ses.sesid,ses.[date],ses.[index],ses.attanded\n"
-                    + "	,l.lid,l.lname\n"
-                    + "	,g.gid,g.gname\n"
-                    + "	,sub.subid,sub.subname\n"
-                    + "	,r.rid,r.rname\n"
-                    + "	,t.tid,t.[description]\n"
-                    + "FROM [Session] ses \n"
-                    + "			INNER JOIN Lecturer l ON l.lid = ses.lid\n"
-                    + "			INNER JOIN [Group] g ON g.gid = ses.gid\n"
-                    + "			INNER JOIN [Subject] sub ON sub.subid = g.subid\n"
-                    + "			INNER JOIN Room r ON r.rid = ses.rid\n"
-                    + "			INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
-                    + "                 join Student_Group sg on sg.gid = g.gid\n"
-                    + "			join Student s on s.stdid = sg.stdid\n"
-                    + "WHERE\n"
-                    + "s.stdid = ?\n"
-                    + "AND ses.[date] >= ?\n"
-                    + "AND ses.[date] <= ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, stdid);
-            stm.setDate(2, from);
-            stm.setDate(3, to);
-            ResultSet rs = stm.executeQuery();
+            String statement = "SELECT ses.sesid, gr.gname, r.rname, at.present, ts.tid, ts.description, ses.date  \n"
+                    + "								   FROM Session ses join [Group] gr on ses.gid = gr.gid\n"
+                    + "								   join Room r on ses.rid = r.rid\n"
+                    + "								   join TimeSlot ts on ses.tid = ts.tid\n"
+                    + "								   join Attandance at on ses.sesid = at.sesid\n"
+                    + "								   where at.stdid = ? and ses.date between ? and ?";
+            PreparedStatement pstm = connection.prepareStatement(statement);
+            pstm.setInt(1, stdid);
+            pstm.setDate(2, new java.sql.Date(DateTimeHelper.removeTime(from).getTime()));
+            pstm.setDate(3, new java.sql.Date(DateTimeHelper.removeTime(to).getTime()));
+            ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                Session session = new Session();
-                Lecturer l = new Lecturer();
+
+                Session ses = new Session();
                 Room r = new Room();
-                Group g = new Group();
-                TimeSlot t = new TimeSlot();
+                TimeSlot ts = new TimeSlot();
+                Group gr = new Group();
+                Attendance att = new Attendance();
 
-                session.setId(rs.getInt("sesid"));
-                session.setDate(rs.getDate("date"));
-                session.setIndex(rs.getInt("index"));
-                session.setAttanded(rs.getBoolean("attanded"));
+                ses.setId(rs.getInt("sesid"));
+                ses.setDate(new java.util.Date(DateTimeHelper.removeTime(rs.getDate("date")).getTime()));
 
-                l.setId(rs.getInt("lid"));
-                l.setName(rs.getString("lname"));
-                session.setLecturer(l);
+                gr.setName(rs.getString("gname"));
+                ses.setGroup(gr);
 
-                r.setId(rs.getInt("rid"));
                 r.setName(rs.getString("rname"));
-                session.setRoom(r);
+                ses.setRoom(r);
 
-                g.setId(rs.getInt("gid"));
-                g.setName(rs.getString("gname"));
-                session.setGroup(g);
+                ts.setId(rs.getInt("tid"));
+                ts.setDescription(rs.getString("description"));
+                ses.setTimeslot(ts);
 
-                t.setId(rs.getInt("tid"));
-                t.setDescription(rs.getString("description"));
-                session.setSlot(t);
+                att.setPresent(rs.getBoolean("present"));
+                ses.getAttandances().add(att);
 
-                sessions.add(session);
-
+                sessions.add(ses);
             }
         } catch (SQLException ex) {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return sessions;
     }
 
-    public ArrayList<Session> filterForLecturer(int lid, Date from, Date to) {
+    public ArrayList<Session> filterByLecturer(int lid, Date from, Date to) {
         ArrayList<Session> sessions = new ArrayList<>();
         try {
-            String sql = "SELECT  \n"
-                    + "	ses.sesid,ses.[date],ses.[index],ses.attanded\n"
-                    + "	,l.lid,l.lname\n"
-                    + "	,g.gid,g.gname\n"
-                    + "	,sub.subid,sub.subname\n"
-                    + "	,r.rid,r.rname\n"
-                    + "	,t.tid,t.[description]\n"
-                    + "FROM [Session] ses \n"
-                    + "			INNER JOIN Lecturer l ON l.lid = ses.lid\n"
-                    + "			INNER JOIN [Group] g ON g.gid = ses.gid\n"
-                    + "			INNER JOIN [Subject] sub ON sub.subid = g.subid\n"
-                    + "			INNER JOIN Room r ON r.rid = ses.rid\n"
-                    + "			INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
-                    + "WHERE\n"
-                    + "l.lid = ?\n"
-                    + "AND ses.[date] >= ?\n"
-                    + "AND ses.[date] <= ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, lid);
-            stm.setDate(2, from);
-            stm.setDate(3, to);
-            ResultSet rs = stm.executeQuery();
+            String statement = "select ses.sesid, ses.[index], lec.lname, gr.gid, gr.gname, r.rname, ses.attanded, ts.tid, ts.description, ses.date ,gr.class, sub.subname\n"
+                    + "					from Session ses \n"
+                    + "					join Lecturer lec on ses.lid = lec.lid\n"
+                    + "					join [Group] gr on ses.gid = gr.gid\n"
+                    + "					 join Room r on ses.rid = r.rid\n"
+                    + "					   join TimeSlot ts on ses.tid = ts.tid\n"
+                    + "					   join Subject sub on gr.subid = sub.subid\n"
+                    + "					where ses.lid = ? and ses.date between ? and ?";
+            PreparedStatement pstm = connection.prepareStatement(statement);
+            pstm.setInt(1, lid);
+            pstm.setDate(2, new java.sql.Date(DateTimeHelper.removeTime(from).getTime()));
+            pstm.setDate(3, new java.sql.Date(DateTimeHelper.removeTime(to).getTime()));
+            ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                Session session = new Session();
-                Lecturer l = new Lecturer();
+                Session ses = new Session();
                 Room r = new Room();
-                Group g = new Group();
-                TimeSlot t = new TimeSlot();
-                Subject s = new Subject();
+                TimeSlot ts = new TimeSlot();
+                Group gr = new Group();
+                Lecturer lec = new Lecturer();
+                Subject sub = new Subject();
+                ses.setId(rs.getInt("sesid"));
+                ses.setDate(new java.util.Date(DateTimeHelper.removeTime(rs.getDate("date")).getTime()));
+                ses.setIndex(rs.getInt("index"));
+                
+                lec.setId(lid);
+                lec.setName(rs.getString("lname"));
+                ses.setLecturer(lec);
+                
+                gr.setId(rs.getInt("gid"));
+                gr.setName(rs.getString("gname"));
+                gr.setClassname(rs.getString("class"));
+                ses.setGroup(gr);
 
-                session.setId(rs.getInt("sesid"));
-                session.setDate(rs.getDate("date"));
-                session.setIndex(rs.getInt("index"));
-                session.setAttanded(rs.getBoolean("attanded"));
-
-                l.setId(rs.getInt("lid"));
-                l.setName(rs.getString("lname"));
-                session.setLecturer(l);
-
-                r.setId(rs.getInt("rid"));
                 r.setName(rs.getString("rname"));
-                session.setRoom(r);
+                ses.setRoom(r);
 
-                g.setId(rs.getInt("gid"));
-                g.setName(rs.getString("gname"));
-                session.setGroup(g);
+                ts.setId(rs.getInt("tid"));
+                ts.setDescription(rs.getString("description"));
+                ses.setTimeslot(ts);
 
-                t.setId(rs.getInt("tid"));
-                t.setDescription(rs.getString("description"));
-                session.setSlot(t);
+                ses.setAttandated(rs.getBoolean("attanded"));
 
-                sessions.add(session);
-
+                sub.setName(rs.getString("subname"));
+                gr.setSubject(sub);
+                sessions.add(ses);
             }
         } catch (SQLException ex) {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,7 +153,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
             stm_delete.executeUpdate();
 
             //insert new attandances
-            for (Attandance att : model.getAtts()) {
+            for (Attendance att : model.getAttandances()) {
                 sql = "INSERT INTO [Attandance]\n"
                         + "           ([sesid]\n"
                         + "           ,[stdid]\n"
@@ -252,7 +231,7 @@ public class SessionDBContext extends dal.DBContext<Session> {
                     TimeSlot t = new TimeSlot();
                     t.setId(rs.getInt("tid"));
                     t.setDescription(rs.getString("tdescription"));
-                    ses.setSlot(t);
+                    ses.setTimeslot(t);
 
                     Lecturer l = new Lecturer();
                     l.setId(rs.getInt("lid"));
@@ -271,19 +250,19 @@ public class SessionDBContext extends dal.DBContext<Session> {
 
                     ses.setDate(rs.getDate("date"));
                     ses.setIndex(rs.getInt("index"));
-                    ses.setAttanded(rs.getBoolean("attanded"));
+                    ses.setAttandated(rs.getBoolean("attanded"));
                 }
                 //read student
                 Student s = new Student();
                 s.setId(rs.getInt("stdid"));
                 s.setName(rs.getString("stdname"));
                 //read attandance
-                Attandance a = new Attandance();
+                Attendance a = new Attendance();
                 a.setStudent(s);
                 a.setSession(ses);
                 a.setPresent(rs.getBoolean("present"));
                 a.setDescription(rs.getString("description"));
-                ses.getAtts().add(a);
+                ses.getAttandances().add(a);
             }
             return ses;
         } catch (SQLException ex) {
@@ -297,4 +276,13 @@ public class SessionDBContext extends dal.DBContext<Session> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public static void main(String[] args) throws ParseException{
+        SessionDBContext ssdb = new SessionDBContext();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        ArrayList<Session> sessions = ssdb.filterByStudent(1, sdf.parse("17/10/2022"), sdf.parse("23/10/2022"));
+        
+        for(Session ses : sessions){
+            System.out.println(ses);
+        }
+    }
 }

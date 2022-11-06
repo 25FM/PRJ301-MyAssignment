@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -12,17 +12,16 @@ import java.util.ArrayList;
  * @author MANH
  */
 public class Session {
+
     private int id;
     private Group group;
     private Room room;
     private Lecturer lecturer;
     private Date date;
     private int index;
-    private boolean attanded;
-    private TimeSlot slot;
-    private Subject subject;
-    
-    private ArrayList<Attandance> atts = new ArrayList<>();
+    private boolean attandated;
+    private TimeSlot timeslot;
+    private ArrayList<Attendance> attandances = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -30,22 +29,6 @@ public class Session {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     public Lecturer getLecturer() {
@@ -56,12 +39,37 @@ public class Session {
         this.lecturer = lecturer;
     }
 
-    public Date getDate() {
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public TimeSlot getTimeslot() {
+        return timeslot;
+    }
+
+    public void setTimeslot(TimeSlot timeslot) {
+        this.timeslot = timeslot;
+    }
+
+    public java.util.Date getDate() {
+
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public int getIndex() {
@@ -72,41 +80,20 @@ public class Session {
         this.index = index;
     }
 
-    public boolean isAttanded() {
-        return attanded;
+    public Boolean isAttandated() {
+        return attandated;
     }
 
-    public void setAttanded(boolean attanded) {
-        this.attanded = attanded;
+    public void setAttandated(Boolean attandated) {
+        this.attandated = attandated;
     }
 
-    public TimeSlot getSlot() {
-        return slot;
+    public ArrayList<Attendance> getAttandances() {
+        return attandances;
     }
 
-    public void setSlot(TimeSlot slot) {
-        this.slot = slot;
+    public void setAttandances(ArrayList<Attendance> attandances) {
+        this.attandances = attandances;
     }
 
-    
-
-    public ArrayList<Attandance> getAtts() {
-        return atts;
-    }
-
-    public void setAtts(ArrayList<Attandance> atts) {
-        this.atts = atts;
-    }
-
-    
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-    
-    
 }
