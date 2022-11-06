@@ -18,52 +18,45 @@ import model.Role;
  *
  * @author MANH
  */
-public class AccountDBContext extends DBContext<Account>{
+public class AccountDBContext extends DBContext<Account> {
+
     public Account get(String username, String password) {
         try {
-            String sql = "SELECT \n"
-                    + "	a.username,a.displayname\n"
-                    + "	,r.rid,r.rname\n"
-                    + "	,f.fid,f.fname,f.url\n"
-                    + "	FROM Account a \n"
-                    + "	LEFT JOIN Role_Account ra ON a.username = ra.username\n"
-                    + "	LEFT JOIN [Role] r ON r.rid = ra.rid\n"
-                    + "	LEFT JOIN [Role_Feature] rf ON rf.rid = r.rid\n"
-                    + "	LEFT JOIN [Feature] f ON f.fid = rf.fid\n"
-                    + "WHERE a.username = ? AND a.password = ?";
+            String sql = "SELECT  username, displayname from Account WHERE username = ? AND [password] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
             Account account = null;
-            Role currentRole = new Role();
-            currentRole.setId(-1);
+//            Role currentRole = new Role();
+//            currentRole.setId(-1);
             while (rs.next()) {
                 if (account == null) {
                     account = new Account();
                     account.setUsername(username);
                     account.setDisplayname(rs.getString("displayname"));
+
                 }
-                int rid = rs.getInt("rid");
-                if(rid!=0)
-                {
-                    if(rid!=currentRole.getId())
-                    {
-                        currentRole = new Role();
-                        currentRole.setId(rs.getInt("rid"));
-                        currentRole.setName(rs.getString("rname"));
-                        account.getRoles().add(currentRole);
-                    }
-                }
-                int fid = rs.getInt("fid");
-                if(fid!=0)
-                {
-                    Feature f = new Feature();
-                    f.setId(fid);
-                    f.setName(rs.getString("fname"));
-                    f.setUrl(rs.getString("url"));
-                    currentRole.getFeatures().add(f);
-                }
+//                int rid = rs.getInt("rid");
+//                if(rid!=0)
+//                {
+//                    if(rid!=currentRole.getId())
+//                    {
+//                        currentRole = new Role();
+//                        currentRole.setId(rs.getInt("rid"));
+//                        currentRole.setName(rs.getString("rname"));
+//                        account.getRoles().add(currentRole);
+//                    }
+//                }
+//                int fid = rs.getInt("fid");
+//                if(fid!=0)
+//                {
+//                    Feature f = new Feature();
+//                    f.setId(fid);
+//                    f.setName(rs.getString("fname"));
+//                    f.setUrl(rs.getString("url"));
+//                    currentRole.getFeatures().add(f);
+//                }
 
             }
             return account;

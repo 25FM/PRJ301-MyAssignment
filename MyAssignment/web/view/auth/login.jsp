@@ -18,7 +18,9 @@
             password: <input type="password" name="password" /> <br/>
             <input type="submit" value="Login" /> 
         </form>
-        <c:if test="${account != null}">
+        ${mess}<br>
+        <c:if test="${mess == 'Login successfull!'}">
+            Go to <a href="home.jsp">Home</a> now
         </c:if>
 </body>
 </html>

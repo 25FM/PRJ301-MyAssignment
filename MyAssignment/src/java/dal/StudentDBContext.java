@@ -23,7 +23,8 @@ public class StudentDBContext extends DBContext<Student> {
     public void insert(Student model) {
         try {
             String sql = "INSERT INTO Student(stdid, stdname, stdgender, stddob)\n"
-                    + "VALUES (?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?)"
+                    + "INSERT into Student_Group values (?,?)";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, model.getId());
             stm.setString(2, model.getName());
@@ -40,7 +41,7 @@ public class StudentDBContext extends DBContext<Student> {
     public void update(Student model) {
         try {
             connection.setAutoCommit(false);
-            String sql ="Update Student set stdname = ?, stdgender = ?, stddob = ? where stdid = ?";
+            String sql = "Update Student set stdname = ?, stdgender = ?, stddob = ? where stdid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, model.getId());
             stm.setString(1, model.getName());
@@ -54,9 +55,7 @@ public class StudentDBContext extends DBContext<Student> {
             } catch (SQLException ex1) {
                 Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex1);
             }
-        }
-        finally
-        {
+        } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
@@ -68,7 +67,8 @@ public class StudentDBContext extends DBContext<Student> {
     @Override
     public void delete(Student model) {
         try {
-            String sql = "Delete Student where stdid = ?";
+            String sql = "Delete Student_Group where stdid = ?"
+                    + "Delete Student where stdid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, model.getId());
             stm.executeUpdate();
@@ -79,7 +79,49 @@ public class StudentDBContext extends DBContext<Student> {
 
     @Override
     public Student get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        try {
+//            String sql = "select s.stdid, s.stdname, s.stdgender, s.stddob, sg.gid, g.gname, g.lid from Student s\n"
+//                    + "left join Student_Group sg on s.stdid = sg.stdid\n"
+//                    + "left join [Group] g on g.gid = sg.gid"
+//                    + "where s.stdid = ?";
+//            PreparedStatement stm = connection.prepareStatement(sql);
+//            stm.setInt(1, id);
+//            ResultSet rs = stm.executeQuery();
+//            Student s = null;
+//            while (rs.next()) {
+//                if (s == null) {
+//                    s = new Student();
+//                    int stdid = rs.getInt("stdid");
+//                    String stdname = rs.getString("stdname");
+//                    boolean stdgender = rs.getBoolean("stdgender");
+//                    Date stddob = rs.getDate("stddob");
+//                    s.setId(stdid);
+//                    s.setName(stdname);
+//                    s.setGender(stdgender);
+//                    s.setDob(stddob);
+//                    
+//                }
+//                
+//            } 
+//            return s;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+        Student s = new Student();
+        try {
+            String statement = "select stdname from student where stdid = ?";
+            PreparedStatement stm = connection.prepareStatement(statement);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            rs.next();
+            String name = rs.getString(1);
+            s.setId(id);
+            s.setName(name);
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
     }
 
     @Override

@@ -12,18 +12,14 @@
         <title>Home</title>
     </head>
     <body>
-        <c:if test="${sessionScope.account ne null}">
-            Hello ${sessionScope.account.displayname}, click
-            <a href="logout">here</a> to logout.
-        </c:if>
-            <c:if test="${sessionScope.account eq null}">
-            click <a href="login">here</a> to login.
-        </c:if>
-            <br/>
-            <select>
-                
-                <option>View Table</option>
-                
-            </select>
-    </body>
+    <c:if test="${session.account == 'null'}">
+        Hello ${account.displayname}, click
+        <a href="logout">here</a> to logout.
+    </c:if>
+    <c:if test="${session.account != 'null'}">
+        click <a href="login">here</a> to login.
+    </c:if>
+
+
+</body>
 </html>

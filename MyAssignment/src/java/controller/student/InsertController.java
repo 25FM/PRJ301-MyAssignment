@@ -68,6 +68,7 @@ public class InsertController extends HttpServlet {
         s.setName(request.getParameter("name"));
         s.setGender(request.getParameter("gender").equals("male"));
         s.setDob(Date.valueOf(request.getParameter("dob")));
+        
         StudentDBContext db = new StudentDBContext();
         db.insert(s);
         response.sendRedirect("list");

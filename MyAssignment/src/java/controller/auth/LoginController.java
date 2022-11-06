@@ -11,7 +11,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.Session;
 
 /**
  *
@@ -27,7 +29,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+        request.getRequestDispatcher("../view/auth/login.jsp").forward(request, response);
     }
 
     @Override
@@ -37,17 +39,15 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password");
         AccountDBContext db = new AccountDBContext();
         Account account = db.get(username, password);
+        String mess = "Login failed!";
         if(account!=null)
         {
-            request.getSession().setAttribute("account", account);
-            response.getWriter().println("login successful!");
-            response.sendRedirect("view/home.jsp");
-            
+            HttpSession session = request.getSession();
+            session.setAttribute("account", account);
+            mess ="Login successfull!";
         }
-        else
-        {
-            response.getWriter().println("login failed!");
-        }
+        request.setAttribute("mess", mess);
+        request.getRequestDispatcher("../view/auth/login.jsp").forward(request, response);
     }
 
     @Override

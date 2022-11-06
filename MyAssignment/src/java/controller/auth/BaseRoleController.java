@@ -14,9 +14,10 @@ import model.Role;
 
 /**
  *
- * @author MANH
+ * @author sonnt
  */
 public abstract class BaseRoleController extends BaseAuthenticationController {
+
     private boolean checkAuthorization(HttpServletRequest req)
     {
         String currentURL = req.getServletPath();
@@ -29,12 +30,16 @@ public abstract class BaseRoleController extends BaseAuthenticationController {
         }
         return false;
     }
+    
     protected abstract void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
     protected abstract void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+    
+    
     @Override
     protected void processPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(checkAuthorization(req))
         {
+            //do bussiness
             processAuthPost(req, resp);
         }
         else
@@ -45,11 +50,11 @@ public abstract class BaseRoleController extends BaseAuthenticationController {
     protected void processGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(checkAuthorization(req))
         {
+            //do bussiness
             processAuthGet(req, resp);
         }
         else
             resp.getWriter().println("access denied!");
-    
     }
     
 }
