@@ -62,7 +62,7 @@ public class TimetableLecController extends HttpServlet {
         req.setAttribute("slots", slots);
 
         SessionDBContext sesDB = new SessionDBContext();
-        ArrayList<Session> sessions = sesDB.filterForLecturer(lid, from, to);
+        ArrayList<Session> sessions = sesDB.filterByLecturer(lid, from, to);
         req.setAttribute("sessions", sessions);
 
         LecturerDBContext lecDB = new LecturerDBContext();

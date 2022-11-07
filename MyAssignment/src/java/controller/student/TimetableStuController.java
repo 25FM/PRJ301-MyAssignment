@@ -57,7 +57,7 @@ public class TimetableStuController extends HttpServlet {
         request.setAttribute("daysOfWeek", daysOfWeek);
         request.setAttribute("sessions", sessions);
         request.setAttribute("student", student);
-        request.getRequestDispatcher("/student/timetable/view").forward(request, response);
+        request.getRequestDispatcher("/student/timetable").forward(request, response);
         
     }
 

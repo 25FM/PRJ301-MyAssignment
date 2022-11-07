@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.student;
+package controller.lecturer;
 
 import dal.StudentDBContext;
 import java.io.IOException;
@@ -11,14 +11,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
+import java.util.ArrayList;
 import model.Student;
 
 /**
  *
  * @author MANH
  */
-public class UpdateController extends HttpServlet {
+public class ViewAttendanceReport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +36,10 @@ public class UpdateController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateController</title>");            
+            out.println("<title>Servlet ViewAttendanceReport</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewAttendanceReport at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,11 +57,11 @@ public class UpdateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        StudentDBContext stuDB = new StudentDBContext();
-        Student student = stuDB.get(id);
-        request.setAttribute("student", student);
-        request.getRequestDispatcher("../view/student/update.jsp").forward(request, response);
+        int grid = Integer.parseInt(request.getParameter("grid"));
+        StudentDBContext sdb = new StudentDBContext();
+        ArrayList<Student> list = sdb.getByGroup(grid);
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("").forward(request, response);
     }
 
     /**
@@ -75,12 +75,7 @@ public class UpdateController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Student s = new Student();
-        s.setId(Integer.parseInt(request.getParameter("id")));
-        s.setName(request.getParameter("name"));
-        StudentDBContext db = new StudentDBContext();
-        db.update(s);
-        response.sendRedirect("list");
+        processRequest(request, response);
     }
 
     /**

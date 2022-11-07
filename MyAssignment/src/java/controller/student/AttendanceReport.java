@@ -69,7 +69,10 @@ public class AttendanceReport extends HttpServlet {
         }
         AttendanceDBContext atdb = new AttendanceDBContext();
         ArrayList<Attendance> atts = atdb.getByStudent(stdid, Grid);
-        processRequest(request, response);
+        request.setAttribute("student", s);
+        request.setAttribute("subs", subs);
+        request.setAttribute("atts", atts);
+        request.getRequestDispatcher(grid).forward(request, response);
     }
 
     /**

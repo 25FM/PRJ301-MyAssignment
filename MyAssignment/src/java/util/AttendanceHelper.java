@@ -18,10 +18,12 @@ public class AttendanceHelper {
         for (int i = 0; i < num; i++) {
             if (!atts.get(i).isPresent()) {
                 absentCount++;
-            }
-            if (atts.get(i).isPresent() != null) {
+            } else {
                 sofarCount++;
             }
+//            if (atts.get(i).isPresent() != null) {
+//                sofarCount++;
+//            } 
         }
         double percent = (double) absentCount / sofarCount * 100;
         return Math.round(percent * 100.0) / 100.0;
