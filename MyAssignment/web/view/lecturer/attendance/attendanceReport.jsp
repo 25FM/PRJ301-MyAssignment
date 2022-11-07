@@ -3,7 +3,7 @@
     Created on : Nov 3, 2022, 2:21:49 AM
     Author     : HP
 --%>
-<jsp:useBean id="helper" class="util.AttendanceRpHelper"/>
+<jsp:useBean id="helper" class="util.AttendanceHelper"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

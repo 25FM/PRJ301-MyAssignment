@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import controller.auth.BaseRoleController;
 import dal.AttendanceDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +19,7 @@ import model.Attendance;
  *
  * @author MANH
  */
-public class TakeAttendanceInDay extends HttpServlet {
+public class AfterTakeAttendance extends BaseRoleController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -48,11 +49,10 @@ public class TakeAttendanceInDay extends HttpServlet {
             throws ServletException, IOException {
         int grid = Integer.parseInt(request.getParameter("grid"));
         int index = Integer.parseInt(request.getParameter("index"));
-
         AttendanceDBContext atdb = new AttendanceDBContext();
         ArrayList<Attendance> atts = atdb.getByLecturer(grid, index);
         request.setAttribute("atts", atts);
-        request.getRequestDispatcher("/lecturer/Attended/view").forward(request, response);
+        request.getRequestDispatcher("../../view/lecturer/attendance/attended.jsp").forward(request, response);
     }
 
     /**
@@ -78,5 +78,15 @@ public class TakeAttendanceInDay extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

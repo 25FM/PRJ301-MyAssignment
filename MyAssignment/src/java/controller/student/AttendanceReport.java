@@ -4,6 +4,7 @@
  */
 package controller.student;
 
+import controller.auth.BaseRoleController;
 import dal.AttendanceDBContext;
 import dal.StudentDBContext;
 import dal.SubjectDBContext;
@@ -22,7 +23,7 @@ import model.Subject;
  *
  * @author MANH
  */
-public class AttendanceReport extends HttpServlet {
+public class AttendanceReport extends BaseRoleController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -72,7 +73,7 @@ public class AttendanceReport extends HttpServlet {
         request.setAttribute("student", s);
         request.setAttribute("subs", subs);
         request.setAttribute("atts", atts);
-        request.getRequestDispatcher(grid).forward(request, response);
+        request.getRequestDispatcher("/student/Report/Attendance/view").forward(request, response);
     }
 
     /**
@@ -98,5 +99,15 @@ public class AttendanceReport extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

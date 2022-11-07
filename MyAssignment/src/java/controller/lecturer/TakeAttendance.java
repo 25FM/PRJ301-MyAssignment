@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import controller.auth.BaseRoleController;
 import dal.AttendanceDBContext;
 import dal.SessionDBContext;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import util.DateTimeHelper;
  *
  * @author MANH
  */
-public class TakeAttendanceController extends HttpServlet {
+public class TakeAttendance extends BaseRoleController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,9 +46,9 @@ public class TakeAttendanceController extends HttpServlet {
         request.setAttribute("week", week);
         request.setAttribute("atts", atts);
         if (time == -1) {
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("../view/lecturer/attendance/attended.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("/lecturer/addAttendance/view").forward(request, response);
+            request.getRequestDispatcher("../view/lecturer/attenndance/addAttendance.jsp").forward(request, response);
 
         }
 
@@ -81,5 +82,15 @@ public class TakeAttendanceController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

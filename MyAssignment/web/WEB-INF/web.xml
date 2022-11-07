@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>LecturerTimetableController</servlet-name>
-        <servlet-class>controller.lecturer.TimetableLecController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>TimetableStuController</servlet-name>
-        <servlet-class>controller.student.TimetableStuController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.auth.LoginController</servlet-class>
     </servlet>
@@ -21,88 +13,64 @@
         <servlet-class>controller.home.HomeController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ListController</servlet-name>
-        <servlet-class>controller.student.ListController</servlet-class>
+        <servlet-name>lecturer.AfterTakeAttendance</servlet-name>
+        <servlet-class>controller.lecturer.AfterTakeAttendance</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InsertController</servlet-name>
-        <servlet-class>controller.student.InsertController</servlet-class>
+        <servlet-name>lecturer.TakeAttendance</servlet-name>
+        <servlet-class>controller.lecturer.TakeAttendance</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UpdateController</servlet-name>
-        <servlet-class>controller.student.UpdateController</servlet-class>
+        <servlet-name>lecturer.Timetable</servlet-name>
+        <servlet-class>controller.lecturer.Timetable</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DeleteController</servlet-name>
-        <servlet-class>controller.student.DeleteController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AttendanceReport</servlet-name>
-        <servlet-class>controller.student.AttendanceReport</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewAttendanceReport</servlet-name>
+        <servlet-name>lecturer.ViewAttendanceReport</servlet-name>
         <servlet-class>controller.lecturer.ViewAttendanceReport</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TakeAttendanceInDay</servlet-name>
-        <servlet-class>controller.lecturer.TakeAttendanceInDay</servlet-class>
+        <servlet-name>student.AttendanceReport</servlet-name>
+        <servlet-class>controller.student.AttendanceReport</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TakeAttendanceController</servlet-name>
-        <servlet-class>controller.lecturer.TakeAttendanceController</servlet-class>
+        <servlet-name>student.TimetableStuController</servlet-name>
+        <servlet-class>controller.student.TimetableStuController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LecturerTimetableController</servlet-name>
-        <url-pattern>/lecturer/timetable</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TimetableStuController</servlet-name>
-        <url-pattern>/student/timetable</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/view/login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
-        <url-pattern>/view/logout</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HomeController</servlet-name>
-        <url-pattern>/view/home</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ListController</servlet-name>
-        <url-pattern>/student/list</url-pattern>
+        <servlet-name>lecturer.AfterTakeAttendance</servlet-name>
+        <url-pattern>/lecturer/takeattendance/after</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InsertController</servlet-name>
-        <url-pattern>/teacher/insert</url-pattern>
+        <servlet-name>lecturer.TakeAttendance</servlet-name>
+        <url-pattern>/lecturer/takeattendance</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdateController</servlet-name>
-        <url-pattern>/student/update</url-pattern>
+        <servlet-name>lecturer.Timetable</servlet-name>
+        <url-pattern>/lecturer/timetable</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DeleteController</servlet-name>
-        <url-pattern>/student/delete</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AttendanceReport</servlet-name>
-        <url-pattern>/student/attendance/report</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewAttendanceReport</servlet-name>
+        <servlet-name>lecturer.ViewAttendanceReport</servlet-name>
         <url-pattern>/lecturer/viewattendancereport</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TakeAttendanceInDay</servlet-name>
-        <url-pattern>/lecturer/takeattendanceinday</url-pattern>
+        <servlet-name>student.AttendanceReport</servlet-name>
+        <url-pattern>/student/attendancereport</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TakeAttendanceController</servlet-name>
-        <url-pattern>/lecturer/takeattendance</url-pattern>
+        <servlet-name>student.TimetableStuController</servlet-name>
+        <url-pattern>/student/timetable</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,6 +4,7 @@
  */
 package controller.student;
 
+import controller.auth.BaseRoleController;
 import dal.SessionDBContext;
 import dal.StudentDBContext;
 import dal.TimeSlotDBContext;
@@ -26,7 +27,7 @@ import util.DateTimeHelper;
  *
  * @author MANH
  */
-public class TimetableStuController extends HttpServlet {
+public class TimetableStuController extends BaseRoleController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,7 +50,7 @@ public class TimetableStuController extends HttpServlet {
         Week currentWeek = DateTimeHelper.getWeekTime(indexWeek);
         ArrayList<String> daysOfWeek = currentWeek.toStringValues();
         SessionDBContext ssdb = new SessionDBContext();
-        ArrayList<Session> sessions = ssdb.filterByStudent(stdid, new Date(currentWeek.getFrom().getTime()), new Date(currentWeek.getTo().getTime()));
+        ArrayList<Session> sessions = ssdb.getByStudent(stdid, new Date(currentWeek.getFrom().getTime()), new Date(currentWeek.getTo().getTime()));
         request.setAttribute("slots", slots);
         request.setAttribute("weeks", weeks);
         request.setAttribute("currentWeek", currentWeek);
@@ -57,16 +58,13 @@ public class TimetableStuController extends HttpServlet {
         request.setAttribute("daysOfWeek", daysOfWeek);
         request.setAttribute("sessions", sessions);
         request.setAttribute("student", student);
-        request.getRequestDispatcher("/student/timetable").forward(request, response);
+        request.getRequestDispatcher("//student/timetable/view").forward(request, response);
         
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
         processRequest(request, response);
     }
 
@@ -80,5 +78,15 @@ public class TimetableStuController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

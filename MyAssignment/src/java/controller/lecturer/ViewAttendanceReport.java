@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import controller.auth.BaseRoleController;
 import dal.StudentDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +19,7 @@ import model.Student;
  *
  * @author MANH
  */
-public class ViewAttendanceReport extends HttpServlet {
+public class ViewAttendanceReport extends BaseRoleController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,18 +32,7 @@ public class ViewAttendanceReport extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewAttendanceReport</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewAttendanceReport at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,7 +51,7 @@ public class ViewAttendanceReport extends HttpServlet {
         StudentDBContext sdb = new StudentDBContext();
         ArrayList<Student> list = sdb.getByGroup(grid);
         request.setAttribute("list", list);
-        request.getRequestDispatcher("").forward(request, response);
+        request.getRequestDispatcher("../view/lecturer/attendance/attendanceReport.jsp").forward(request, response);
     }
 
     /**
@@ -87,5 +77,15 @@ public class ViewAttendanceReport extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }
