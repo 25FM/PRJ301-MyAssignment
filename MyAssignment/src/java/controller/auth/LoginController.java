@@ -42,8 +42,7 @@ public class LoginController extends HttpServlet {
         String mess = "Login failed!";
         if(account!=null)
         {
-            HttpSession session = request.getSession();
-            session.setAttribute("account", account);
+            request.getSession().setAttribute("account", account);
             mess ="Login successfull!";
         }
         request.setAttribute("mess", mess);

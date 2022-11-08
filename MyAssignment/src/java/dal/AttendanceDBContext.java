@@ -21,7 +21,7 @@ import model.TimeSlot;
 
 /**
  *
- * @author HP
+ * @author Manh
  */
 public class AttendanceDBContext extends DBContext<Attendance> {
 

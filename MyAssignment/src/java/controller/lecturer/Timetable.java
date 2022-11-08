@@ -1,6 +1,5 @@
 package controller.lecturer;
 
-
 import controller.auth.BaseRoleController;
 import dal.LecturerDBContext;
 import dal.SessionDBContext;
@@ -23,27 +22,28 @@ import util.DateTimeHelper;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
- * @author HP
+ * @author Manh
  */
-public class Timetable extends BaseRoleController{
+public class Timetable extends BaseRoleController {
+
+
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int lid = Integer.parseInt(req.getParameter("lid"));
         String paramWeek = req.getParameter("week");
         ArrayList<Week> weeks = DateTimeHelper.getAllWeek();
-        
+
         LecturerDBContext lecdb = new LecturerDBContext();
         Lecturer lec = lecdb.get(lid);
-        
+
         TimeSlotDBContext tsdb = new TimeSlotDBContext();
         ArrayList<TimeSlot> slots = tsdb.list();
 
@@ -59,7 +59,7 @@ public class Timetable extends BaseRoleController{
 
         SessionDBContext ssdb = new SessionDBContext();
         ArrayList<Session> sessions = ssdb.getByLecturer(lid, new Date(currentWeek.getFrom().getTime()), new Date(currentWeek.getTo().getTime()));
-       
+
         req.setAttribute("slots", slots);
         req.setAttribute("weeks", weeks);
         req.setAttribute("currentWeek", currentWeek);
@@ -70,14 +70,4 @@ public class Timetable extends BaseRoleController{
         req.getRequestDispatcher("../view/lecturer/timetable.jsp").forward(req, resp);
     }
 
-    @Override
-    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

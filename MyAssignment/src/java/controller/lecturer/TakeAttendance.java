@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -31,32 +31,15 @@ public class TakeAttendance extends BaseRoleController {
 
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int grid = Integer.parseInt(request.getParameter("grid"));
-        int index = Integer.parseInt(request.getParameter("index"));
-        int lid = Integer.parseInt(request.getParameter("lid"));
-        int week = Integer.parseInt(request.getParameter("week"));
-        AttendanceDBContext atdb = new AttendanceDBContext();
-        ArrayList<Attendance> atts = atdb.getByLecturer(grid, index);
-        Date day = atts.get(0).getSession().getDate();
-        int time = DateTimeHelper.compareToNowByDay(day);
-        request.setAttribute("lid", lid);
-        request.setAttribute("week", week);
-        request.setAttribute("atts", atts);
-        if (time == -1) {
-            request.getRequestDispatcher("../view/lecturer/attendance/attended.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("../view/lecturer/attenndance/addAttendance.jsp").forward(request, response);
-
-        }
-
-    }
+   
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+    @Override
+    protected void processAuthPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Attendance> atts = new ArrayList<>();
         int lid = Integer.parseInt(request.getParameter("lid"));
         int week = Integer.parseInt(request.getParameter("week"));
@@ -79,18 +62,24 @@ public class TakeAttendance extends BaseRoleController {
     }
 
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected void processAuthGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int grid = Integer.parseInt(request.getParameter("grid"));
+        int index = Integer.parseInt(request.getParameter("index"));
+        int lid = Integer.parseInt(request.getParameter("lid"));
+        int week = Integer.parseInt(request.getParameter("week"));
+        AttendanceDBContext atdb = new AttendanceDBContext();
+        ArrayList<Attendance> atts = atdb.getByLecturer(grid, index);
+        Date day = atts.get(0).getSession().getDate();
+        int time = DateTimeHelper.compareToNowByDay(day);
+        request.setAttribute("grid", grid);
+        request.setAttribute("lid", lid);
+        request.setAttribute("week", week);
+        request.setAttribute("atts", atts);
+        if (time == -1) {
+            request.getRequestDispatcher("../view/lecturer/attendance/attended.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/lecturer/addAttendance").forward(request, response);
 
-    @Override
-    protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        }    }
 
 }

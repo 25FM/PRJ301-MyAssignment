@@ -20,16 +20,21 @@ public abstract class BaseAuthenticationController extends HttpServlet {
     private boolean isAuthenticated(HttpServletRequest req) {
         return req.getSession().getAttribute("account") != null;
     }
-    
+
     protected abstract void processPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+
     protected abstract void processGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (isAuthenticated(req)) {
             //code business
             processPost(req, resp);
         } else {
-            resp.getWriter().println("access denied!");
+            if (req.getServletPath().equals("lecturer/takeattendance/after")) {
+                resp.sendRedirect("../../view/home.jsp");
+            }
+            resp.sendRedirect("../view/home.jsp");
         }
     }
 
@@ -39,7 +44,11 @@ public abstract class BaseAuthenticationController extends HttpServlet {
             //code business
             processGet(req, resp);
         } else {
-            resp.getWriter().println("access denied!");
+            if (req.getServletPath().equals("/lecturer/takeattendance/after")) {
+                resp.sendRedirect("../../view/home.jsp");
+            } else {
+                resp.sendRedirect("../view/home.jsp");
+            }
         }
     }
 

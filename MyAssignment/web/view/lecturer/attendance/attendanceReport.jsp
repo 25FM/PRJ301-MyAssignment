@@ -1,8 +1,4 @@
-<%-- 
-    Document   : AttendanceReport
-    Created on : Nov 3, 2022, 2:21:49 AM
-    Author     : HP
---%>
+
 <jsp:useBean id="helper" class="util.AttendanceHelper"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -11,13 +7,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../css/AttendanceReport_style.css"/>
+        <link rel="stylesheet" href="../css/attendancereport.css"/>
     </head>
     <body>
         <header>
-            <nav><a href="">Home</a></nav>
+            <nav><a style="text-decoration: none; color: purple" href="../view/home.jsp">Home</a></nav>
             <h1>FPT University Academic Portal</h1>
-            <img src="../img/fptlogo.png">
+            <img src="../img/logofpt.jpg">
         </header>
 
         <h2>Attendance Report for Group ${list.get(0).groups.get(0).classname}</h2>
@@ -47,10 +43,10 @@
                     <c:forEach items="${student.attandances}"  var="att" end="5">
                         <td>
                         <c:if test="${att.isPresent()}">
-                            <img src="../img/check-icon.jpg" alt="attend" style="width: 40%"/>
+                            <img src="../img/attend.png" alt="attend" style="width: 30%"/>
                         </c:if>
                          <c:if test="${!att.isPresent()}">
-                             <img src="../img/x-mark-icon.jpg" alt="absent" style="width: 40%"/>
+                             <img src="../img/absent.png" alt="absent" style="width: 30%"/>
                         </c:if>
                         </td>
                     </c:forEach>

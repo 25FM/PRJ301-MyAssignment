@@ -4,31 +4,31 @@
  */
 package util;
 
+import dal.AttendanceDBContext;
 import java.util.ArrayList;
 import model.Attendance;
 
 /**
  *
- * @author MANH
+ * @author manh
  */
 public class AttendanceHelper {
+
     public static double percentAbsent(ArrayList<Attendance> atts, int num) {
         int absentCount = 0;
         int sofarCount = 0;
         for (int i = 0; i < num; i++) {
             if (!atts.get(i).isPresent()) {
                 absentCount++;
-            } else {
+            }
+            if (atts.get(i).isPresent() == true) {
                 sofarCount++;
             }
-//            if (atts.get(i).isPresent() != null) {
-//                sofarCount++;
-//            } 
         }
-        double percent = (double) absentCount / sofarCount * 100;
+        double percent = (double) absentCount / (sofarCount+absentCount) * 100;
         return Math.round(percent * 100.0) / 100.0;
     }
-    
+
     public static int countAbsent(ArrayList<Attendance> atts, int num) {
         int absentCount = 0;
         for (int i = 0; i < num; i++) {
@@ -50,4 +50,11 @@ public class AttendanceHelper {
         }
         return attendCount;
     }
+
+//    public static void main(String[] args){
+//        AttendanceDBContext atdb = new AttendanceDBContext();
+//        ArrayList<Attendance> atts = atdb.get(1, 1);
+//        double percent = percentAbsent(atts);
+//        System.out.println(percent);
+//    }
 }

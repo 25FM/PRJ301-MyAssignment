@@ -31,48 +31,37 @@ public class TimetableStuController extends BaseRoleController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int stdid = Integer.parseInt(request.getParameter("stdid"));
-        String paraweek = request.getParameter("week");
-        ArrayList<Week> weeks = DateTimeHelper.getAllWeek();
-        
-        TimeSlotDBContext tdb = new TimeSlotDBContext();
-        ArrayList<TimeSlot> slots = tdb.list();
-        
-        StudentDBContext stdb = new StudentDBContext();
-        Student student = stdb.get(stdid);
-        int indexWeek;
-        if (paraweek == null) {
-            Date dnow = new Date();
-            indexWeek = DateTimeHelper.getWeekOfYear(dnow);
-        } else {
-            indexWeek = Integer.parseInt(paraweek);
-        }
-        Week currentWeek = DateTimeHelper.getWeekTime(indexWeek);
-        ArrayList<String> daysOfWeek = currentWeek.toStringValues();
-        SessionDBContext ssdb = new SessionDBContext();
-        ArrayList<Session> sessions = ssdb.getByStudent(stdid, new Date(currentWeek.getFrom().getTime()), new Date(currentWeek.getTo().getTime()));
-        request.setAttribute("slots", slots);
-        request.setAttribute("weeks", weeks);
-        request.setAttribute("currentWeek", currentWeek);
-        request.setAttribute("indexCurrentWeek", indexWeek);
-        request.setAttribute("daysOfWeek", daysOfWeek);
-        request.setAttribute("sessions", sessions);
-        request.setAttribute("student", student);
-        request.getRequestDispatcher("//student/timetable/view").forward(request, response);
-        
+            int stdid = Integer.parseInt(request.getParameter("stdid"));
+            String paraweek = request.getParameter("week");
+            ArrayList<Week> weeks = DateTimeHelper.getAllWeek();
+
+            TimeSlotDBContext tdb = new TimeSlotDBContext();
+            ArrayList<TimeSlot> slots = tdb.list();
+
+            StudentDBContext stdb = new StudentDBContext();
+            Student student = stdb.get(stdid);
+            int indexWeek;
+            if (paraweek == null) {
+                Date dnow = new Date();
+                indexWeek = DateTimeHelper.getWeekOfYear(dnow);
+            } else {
+                indexWeek = Integer.parseInt(paraweek);
+            }
+            Week currentWeek = DateTimeHelper.getWeekTime(indexWeek);
+            ArrayList<String> daysOfWeek = currentWeek.toStringValues();
+            SessionDBContext ssdb = new SessionDBContext();
+            ArrayList<Session> sessions = ssdb.getByStudent(stdid, new Date(currentWeek.getFrom().getTime()), new Date(currentWeek.getTo().getTime()));
+            request.setAttribute("slots", slots);
+            request.setAttribute("weeks", weeks);
+            request.setAttribute("currentWeek", currentWeek);
+            request.setAttribute("indexCurrentWeek", indexWeek);
+            request.setAttribute("daysOfWeek", daysOfWeek);
+            request.setAttribute("sessions", sessions);
+            request.setAttribute("student", student);
+            request.getRequestDispatcher("../view/student/timetable.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
     @Override
     public String getServletInfo() {
@@ -81,12 +70,12 @@ public class TimetableStuController extends BaseRoleController {
 
     @Override
     protected void processAuthPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        processRequest(req, resp);
     }
 
     @Override
     protected void processAuthGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        processRequest(req, resp);
     }
 
 }

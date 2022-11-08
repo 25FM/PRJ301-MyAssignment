@@ -42,14 +42,14 @@ public class LogoutController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+    @Override   
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("account") != null) {
             processRequest(request, response);
         } else {
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("./view/home.jsp").forward(request, response);
 
         }
     }

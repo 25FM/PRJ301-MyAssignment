@@ -43,7 +43,7 @@ public abstract class BaseRoleController extends BaseAuthenticationController {
             processAuthPost(req, resp);
         }
         else
-            resp.getWriter().println("access denied!");
+            resp.getWriter().println("Access denied!");
     }
 
     @Override

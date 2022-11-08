@@ -67,4 +67,9 @@ public class Attendance {
         this.record_time = record_time;
     }
 
+    @Override
+    public String toString() {
+        return "Attendance{" + "id=" + id + ", session=" + session + ", student=" + student + ", present=" + present + ", description=" + description + ", record_time=" + record_time + '}';
+    }
+
 }

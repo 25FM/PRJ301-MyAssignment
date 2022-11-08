@@ -1,0 +1,46 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 8, 2022, 12:11:24 PM
+    Author     : MANH
+*/
+body {
+    overflow-y: hidden;
+}
+
+.img img {
+    width: 100%;
+
+}
+
+.login {
+    position: relative;
+}
+
+.img {
+}
+
+.form {
+    width: 150px;
+    height: 150px;
+    width: 15%;
+    position: absolute;
+    background-color: aliceblue;
+    padding: 0px 0px 20px 5px;
+    right: 45%;
+    bottom: 70%;
+
+}
+
+.submit {
+     position: absolute; 
+     right: 45%;
+     margin: 2px;
+}
+
+.mess {
+    position: absolute; 
+    bottom: 0;
+}

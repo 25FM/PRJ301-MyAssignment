@@ -11,7 +11,7 @@ import util.DateTimeHelper;
 
 /**
  *
- * @author HP
+ * @author Manh
  */
 public class Week {
 

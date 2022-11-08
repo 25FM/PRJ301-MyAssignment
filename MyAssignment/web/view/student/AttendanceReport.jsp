@@ -1,9 +1,5 @@
-<%-- 
-    Document   : AttendanceReport
-    Created on : Oct 30, 2022, 12:34:36 AM
-    Author     : HP
---%>
-<jsp:useBean id="AttHelper" class="util.AttendanceRpHelper"/>
+
+<jsp:useBean id="AttHelper" class="util.AttendanceHelper"/>
 <jsp:useBean id="helper" class="util.DateTimeHelper"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,8 +8,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../../css/AttendanceReport_style.css"/>
-
+        <link rel="stylesheet" href="../css/attendancereport.css"/>
+        
         <script>
             function changeCourse() {
                 var x = document.getElementById("course").value;
@@ -23,9 +19,9 @@
     </head>
     <body>
         <header>
-            <nav><a href="">Home</a></nav>
+            <nav><a style="text-decoration: none; color: purple" href="../view/home.jsp">Home</a></nav>
             <h1>FPT University Academic Portal</h1>
-            <img src="../../img/fptlogo.png">
+            <img src="../img/logofpt.jpg">
         </header>
 
         <h2>View attendance for ${student.name}</h2>
@@ -63,7 +59,7 @@
                     <th >ROOM</th>
                     <th >LECTURER</th>
                     <th >GROUP NAME</th>
-                    <th >ATTEDANCE STATUS</th>
+                    <th >ATTENDANCE STATUS</th>
                     <th >LECTURER'S COMMENT</th>
 
                 </tr>

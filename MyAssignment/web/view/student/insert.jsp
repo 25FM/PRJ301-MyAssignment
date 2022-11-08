@@ -1,8 +1,3 @@
-<%-- 
-    Document   : insert
-    Created on : Oct 31, 2022, 4:45:33 PM
-    Author     : MANH
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

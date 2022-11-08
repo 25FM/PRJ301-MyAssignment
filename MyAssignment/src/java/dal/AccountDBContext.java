@@ -21,45 +21,58 @@ import model.Role;
 public class AccountDBContext extends DBContext<Account> {
 
     public Account get(String username, String password) {
+        Account acc = new Account();
+        Role role;
+        Feature feature;
         try {
-            String sql = "SELECT  username, displayname from Account WHERE username = ? AND [password] = ?";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, username);
-            stm.setString(2, password);
-            ResultSet rs = stm.executeQuery();
-            Account account = null;
-//            Role currentRole = new Role();
-//            currentRole.setId(-1);
+            String statement = "select acc.displayname, r.rid, r.rname, f.fid, f.fname, f.url\n"
+                    + "from Account acc left join Role_Account ra on acc.username = ra.username\n"
+                    + "						  left join Role r on ra.rid = r.rid\n"
+                    + "						  left join Role_Feature rf on r.rid = rf.rid\n"
+                    + "						  left join Feature f on rf.fid = f.fid\n"
+                    + "						  where acc.username = ? and acc.[password] = ?";
+            PreparedStatement pstm = connection.prepareStatement(statement);
+            pstm.setString(1, username);
+            pstm.setString(2, password);
+            ResultSet rs = pstm.executeQuery();
+            rs.next();
+            acc.setUsername(username);
+            acc.setDisplayname(rs.getString("displayname"));
+
+            role = new Role();
+            role.setId(rs.getInt("rid"));
+            role.setName(rs.getString("rname"));
+
+            feature = new Feature();
+            feature.setId(rs.getInt("fid"));
+            feature.setName(rs.getString("fname"));
+            feature.setUrl(rs.getString("url"));
+            role.getFeatures().add(feature);
+
+            acc.getRoles().add(role);
             while (rs.next()) {
-                if (account == null) {
-                    account = new Account();
-                    account.setUsername(username);
-                    account.setDisplayname(rs.getString("displayname"));
+                int rid = rs.getInt("rid");
+                if (rid != role.getId()) {
+                    role = new Role();
+                    role.setId(rs.getInt("rid"));
+                    role.setName(rs.getString("rname"));
 
+                    feature = new Feature();
+                    feature.setId(rs.getInt("fid"));
+                    feature.setName(rs.getString("fname"));
+                    feature.setUrl(rs.getString("url"));
+                    role.getFeatures().add(feature);
+
+                    acc.getRoles().add(role);
+                } else {
+                    feature = new Feature();
+                    feature.setId(rs.getInt("fid"));
+                    feature.setName(rs.getString("fname"));
+                    feature.setUrl(rs.getString("url"));
+                    role.getFeatures().add(feature);
                 }
-//                int rid = rs.getInt("rid");
-//                if(rid!=0)
-//                {
-//                    if(rid!=currentRole.getId())
-//                    {
-//                        currentRole = new Role();
-//                        currentRole.setId(rs.getInt("rid"));
-//                        currentRole.setName(rs.getString("rname"));
-//                        account.getRoles().add(currentRole);
-//                    }
-//                }
-//                int fid = rs.getInt("fid");
-//                if(fid!=0)
-//                {
-//                    Feature f = new Feature();
-//                    f.setId(fid);
-//                    f.setName(rs.getString("fname"));
-//                    f.setUrl(rs.getString("url"));
-//                    currentRole.getFeatures().add(f);
-//                }
-
             }
-            return account;
+            return acc;
         } catch (SQLException ex) {
             Logger.getLogger(AccountDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -7,14 +7,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="../css/attendancereport.css"/>
+        <link rel="stylesheet" href="../../css/attendancereport.css"/>
     </head>
     <body>
 
         <header>
-            <nav><a style="text-decoration: none; color: purple" href="../view/home.jsp">Home</a></nav>
+            <nav><a style="text-decoration: none; color: purple" href="../../view/home.jsp">Home</a></nav>
             <h1>FPT University Academic Portal</h1>
-            <img src="../img/logofpt.jpg">
+            <img src="../../img/logofpt.jpg">
         </header>
 
         <h2>After take attendance activity </h2>
@@ -40,7 +40,7 @@
                     <td>${atts.indexOf(att) + 1}</td>
                     <td>${att.session.group.name}</td>
                     <td>${att.student.name}</td>
-                    <td style="width: 5%"><img src="../img/anhchandung.png" width="100%"  alt="avatar"/></td>
+                    <td style="width: 5%"><img src="../../img/anhchandung.png" width="100%"  alt="avatar"/></td>
                     <td
                         <c:if test="${att.isPresent()}">
                             class="present"
@@ -62,10 +62,5 @@
                 </tr>
             </c:forEach>
         </table>
-        <form action="timetable" method="GET">
-              <input type="hidden" name="lid" value="${lid}"/>
-             <input type="hidden" name="week" value="${week}"/>
-             <input type="submit" value="Exit"/>
-        </form>
     </body>
 </html>

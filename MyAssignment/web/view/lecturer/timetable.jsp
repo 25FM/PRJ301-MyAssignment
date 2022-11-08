@@ -12,7 +12,7 @@
          <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link href="../css/timetable_style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/timetable.css" rel="stylesheet" type="text/css"/>
     
 
         <script>
@@ -24,12 +24,12 @@
     </head>
     <body>
         <header>
-            <nav><a href="../view/home.jsp">Home</a></nav>
+            <nav><a style="text-decoration: none; color: purple"  href="../view/home.jsp">Home</a></nav>
             <h1>FPT University Academic Portal</h1>
-            <img src="../img/fptlogo.png">
+            <img src="../img/logofpt.jpg">
         </header>
 
-        <h2>Activities for ${lec.name}</h2>
+        <h2>Activities for Lecturer ${lec.name}</h2>
         <div class="timetable">
             <table>
                 <tr><th rowspan="2">
@@ -87,7 +87,7 @@
                                         </c:if>
                                         ${ses.getTimeslot().getDescription()}<br>  
                                         <c:if test="${helper.compareToNowByDay(ses.getDate()) <= 0}">
-                                              <a href="TakeAttendace?grid=${ses.group.id}&index=${ses.index}&lid=${lec.id}&week=${indexCurrentWeek}"><abbr class="absent" title="click here to check/take attendance for this session">attendance</abbr></a>
+                                              <a href="takeattendance?grid=${ses.group.id}&index=${ses.index}&lid=${lec.id}&week=${indexCurrentWeek}"><abbr class="absent" title="click here to check/take attendance for this session">attendance</abbr></a>
                                         </c:if>
                                       
                                     </c:if>
