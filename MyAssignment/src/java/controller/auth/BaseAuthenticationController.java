@@ -31,10 +31,7 @@ public abstract class BaseAuthenticationController extends HttpServlet {
             //code business
             processPost(req, resp);
         } else {
-            if (req.getServletPath().equals("lecturer/takeattendance/after")) {
-                resp.sendRedirect("../../view/home.jsp");
-            }
-            resp.sendRedirect("../view/home.jsp");
+            resp.getWriter().println("Access Denied");
         }
     }
 
@@ -44,11 +41,7 @@ public abstract class BaseAuthenticationController extends HttpServlet {
             //code business
             processGet(req, resp);
         } else {
-            if (req.getServletPath().equals("/lecturer/takeattendance/after")) {
-                resp.sendRedirect("../../view/home.jsp");
-            } else {
-                resp.sendRedirect("../view/home.jsp");
-            }
+            resp.getWriter().println("Access Denied");
         }
     }
 
